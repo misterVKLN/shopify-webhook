@@ -1,0 +1,21 @@
+image: git.itl-dev.com:5005/gitlab-ci/docker-builder:20240803-0
+
+stages:
+  - build
+
+variables:
+  IMAGE_TAG: ${CI_REGISTRY_IMAGE}:${CI_COMMIT_REF_SLUG}
+  RELEASE_IMAGE: ${CI_REGISTRY_IMAGE}:latest
+
+before_script:
+  - docker login -u ${CI_REGISTRY_USER} -p ${CI_REGISTRY_PASSWORD} ${CI_REGISTRY}
+
+build-job:
+  stage: build
+  only:
+    - tags
+  script: |
+    docker build -t ${IMAGE_TAG} .
+    docker push ${IMAGE_TAG}
+    docker tag ${IMAGE_TAG} ${RELEASE_IMAGE}
+    docker push ${RELEASE_IMAGE}
