@@ -19,7 +19,7 @@ WEBHOOK_RECEIVER_AUTO_ENROLL = True
 WEBHOOK_RECEIVER_SETTINGS = {
     'shopify': {
         'shop_domain': '6dc7d5-5.myshopify.com',
-        'api_key': 'ec85be6e249080ca97d6a3337effdfe845caf82656a3b40724f612725942d257',
+        'api_key': 'REPLACE',
     }
 }
 SHOPIFY_ADMIN_API_URL = "https://6dc7d5-5.myshopify.com/admin/api/2024-10/graphql.json"
