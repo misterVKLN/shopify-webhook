@@ -162,4 +162,27 @@ It provides the following endpoints:
    1. In **Variants** section, click on **Add options like size or color**  
    2. Enter **Course mode** as **Option name**
    3. Enter a valid openedx course mode  as **Option values**:  
-      For example: `no-id-professional`  
+      For example: `no-id-professional`
+
+---
+
+## Recent Changes
+
+### User Auto-Registration via Shopify Webhook
+
+1. **Feature Description**:
+   - When a new order is created via the Shopify webhook, the system now automatically checks if a user with the provided email exists in the database.
+   - If the user does not exist, a new user is created with the following details:
+     - **Username**: Derived from the email (portion before `@`).
+     - **Password**: A default password `passunibooks` is assigned.
+   - If the user already exists, no new account is created, and the existing account is used.
+
+2. **Purpose**:
+   - This change eliminates the need for manual user registration for customers coming from Shopify.
+   - Ensures seamless integration between Shopify and Open edX.
+
+3. **Impact**:
+   - Simplifies the user onboarding process.
+   - Ensures that users can log in using their email and the default password if they are new.
+
+---

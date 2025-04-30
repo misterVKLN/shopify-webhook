@@ -6,6 +6,7 @@ from django.conf import settings
 from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
+from django.contrib.auth.models import User
 
 from .utils import receive_json_webhook, hmac_is_valid
 from .utils import fail_and_save, finish_and_save
@@ -68,6 +69,22 @@ def order_create(request):
         return HttpResponse(status=200)
 
     finish_and_save(data)
+
+    # Extract email from order data
+    email = data.content.get("email")
+    if email:
+        username = email.split("@")[0]  # Generate username from email
+        default_password = "passunibooks"  # Set a default password
+
+        # Check if user exists, if not, create one
+        user, created = User.objects.get_or_create(
+            email=email,
+            defaults={"username": username, "password": default_password}
+        )
+        if created:
+            logger.info(f"Created user {username} with email {email}")
+        else:
+            logger.info(f"User {username} with email {email} already exists")
 
     # Record order
     order, created = record_order(data)
