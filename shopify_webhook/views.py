@@ -77,14 +77,23 @@ def order_create(request):
         default_password = "passunibooks"  # Set a default password
 
         # Check if user exists, if not, create one
+        base_username = username
+        counter = 1
+        while User.objects.filter(username=username).exists():
+            username = f"{base_username}_{counter}"
+            counter += 1
+
         user, created = User.objects.get_or_create(
             email=email,
-            defaults={"username": username, "password": default_password}
+            defaults={"username": username}
         )
+
         if created:
+            user.set_password(default_password)  # Hash the password before saving
+            user.save()
             logger.info(f"Created user {username} with email {email}")
         else:
-            logger.info(f"User {username} with email {email} already exists")
+            logger.info(f"User with email {email} already exists. No new user created.")
 
     # Record order
     order, created = record_order(data)
