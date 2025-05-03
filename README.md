@@ -186,3 +186,15 @@ It provides the following endpoints:
    - Ensures that users can log in using their email and the default password if they are new.
 
 ---
+
+## Changes in the webhook_user_creation_fix branch
+
+This branch introduces the following updates:
+
+1. Fixed user creation logic:
+   - Passwords are now hashed using the `set_password` method.
+   - Added handling for duplicate usernames: if a username already exists, a numeric suffix is appended (e.g., `username_1`, `username_2`).
+
+2. Improved Shopify webhook handling for automatic user creation on the OpenEdX side.
+
+These changes address password security issues and prevent username conflicts.
