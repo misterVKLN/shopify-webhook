@@ -91,7 +91,12 @@ def order_create(request):
         if created:
             user.set_password(default_password)  # Hash the password before saving
             user.save()
-            logger.info(f"Created user {username} with email {email}")
+
+            # Create a UserProfile for the user
+            from openedx.core.djangoapps.user_api.models import UserProfile
+            UserProfile.objects.create(user=user, name=username)
+
+            logger.info(f"Created user {username} with email {email} and profile")
         else:
             logger.info(f"User with email {email} already exists. No new user created.")
 
