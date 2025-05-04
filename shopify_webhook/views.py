@@ -93,7 +93,7 @@ def order_create(request):
             user.save()
 
             # Create a UserProfile for the user
-            from openedx.core.djangoapps.user_api.models import UserProfile
+            from common.djangoapps.student.models import UserProfile  # Updated import path
             UserProfile.objects.create(user=user, name=username)
 
             logger.info(f"Created user {username} with email {email} and profile")
